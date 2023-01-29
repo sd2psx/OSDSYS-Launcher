@@ -1,8 +1,8 @@
-EE_BIN = main-nogui.elf
-EE_BIN_PACKED = main-nogui-packed.ELF
-EE_BIN_STRIPPED = main-nogui-stripped.ELF
-EE_OBJS = main-nogui.o OSDInit.o libcdvd_add.o
-EE_LIBS = -ldebug -lc -lcdvd -lpatches -lfileXio
+EE_BIN = sd2psx_bl.elf
+EE_BIN_PACKED = sd2psx_bl-packed.ELF
+EE_BIN_STRIPPED = sd2psx_bl-stripped.ELF
+EE_OBJS = sd2psx_bl.o 
+EE_LIBS = -ldebug -lc -lcdvd -lpatches -lfileXio -lmc 
 
 all:
 	$(MAKE) $(EE_BIN_PACKED)
