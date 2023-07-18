@@ -179,10 +179,6 @@ int main(int argc, char *argv[], char **envp)
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd210.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd210.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd220.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd220.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd230.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd230.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd240.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd240.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd250.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd250.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd260.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd260.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd270.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd270.elf", ps2loc);
 
     if (file_exists("mc0:/BOOT/BOOT2.ELF", ps2loc)) LoadElf("mc0:/BOOT/BOOT2.ELF", "mc0:/BOOT/");
     if (file_exists("mc0:/FORTUNA/BOOT2.ELF", ps2loc)) LoadElf("mc0:/FORTUNA/BOOT2.ELF", "mc0:/FORTUNA/");
