@@ -4,6 +4,12 @@ EE_BIN_STRIPPED = sd2psx_bl-stripped.ELF
 EE_OBJS = sd2psx_bl.o 
 EE_LIBS = -ldebug -lc -lcdvd -lpatches -lfileXio -lmc 
 
+PSX ?= 0
+
+ifeq ($(PSX), 1)
+  EE_CFLAGS += -DPSX
+endif
+
 all:
 	$(MAKE) $(EE_BIN_PACKED)
 

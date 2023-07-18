@@ -119,20 +119,11 @@ static char getPs2Loc()
 
     switch (romver[4])
     {
-        case 'E':
-            ps2loc = 'E';
-            break;
-        case 'J':
-            ps2loc = 'I';
-            break;
-        case 'H':
-            ps2loc = 'C';
-            break;
-        case 'U':
-            ps2loc = 'A';
+        case 'H': //asian PS2 outside of japan(I) and mainland china(C) use american(A) system update
+            ps2loc = 'A'; // (eg: SCPH-xxx05/SCPH-xxx06/SCPH-xxx07)
             break;
         default:
-            ps2loc = romver[4];
+            ps2loc = romver[4]; //the rest should use their ROMVER region char 
             break;
     }
     return ps2loc;
@@ -164,8 +155,8 @@ int main(int argc, char *argv[], char **envp)
     while(!cardAvailable() || file_exists("mc0:/SD2PSX_BOOT", ps2loc)) {sleep(1);};
 
     scr_printf("Card re-plug detected. - Booting PS2\n");
-
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osdmain.elf", ps2loc)) loadKELF("mc:/B?EXEC-SYSTEM/osdmain.elf", ps2loc);
+#ifndef PSX
+    if (file_exists("mc0:/B?EXEC-SYSTEM/osdmain.elf", ps2loc))  loadKELF("mc:/B?EXEC-SYSTEM/osdmain.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd110.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd110.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd120.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd120.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd130.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd130.elf", ps2loc);
@@ -174,16 +165,20 @@ int main(int argc, char *argv[], char **envp)
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd160.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd160.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd170.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd170.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd180.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd180.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd190.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd190.elf", ps2loc);
+    if (ps2loc != 'I')
+        if (file_exists("mc0:/B?EXEC-SYSTEM/osd190.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd190.elf", ps2loc); //should be avoided... this update is shared by both 1st gen PSX and DTL-H50009
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd200.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd200.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd210.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd210.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd220.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd220.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd230.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd230.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd240.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd240.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd250.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd250.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd260.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd260.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd270.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd270.elf", ps2loc);
-
+#else
+    if (file_exists("mc0:/BIEXEC-SYSTEM/xosdmain.elf", ps2loc)) loadKELF("mc:/BIEXEC-SYSTEM/xosdmain.elf", ps2loc); //main PSX update
+    if (file_exists("mc0:/BIEXEC-SYSTEM/osd190.elf", ps2loc) )  loadKELF("mc:/BIEXEC-SYSTEM/osd190.elf", ps2loc); // 1st gen PSX
+    if (file_exists("mc0:/BIEXEC-SYSTEM/osd220.elf", ps2loc) )  loadKELF("mc:/BIEXEC-SYSTEM/osd220.elf", ps2loc); // 2nd gen PSX
+#endif
     if (file_exists("mc0:/BOOT/BOOT2.ELF", ps2loc)) LoadElf("mc0:/BOOT/BOOT2.ELF", "mc0:/BOOT/");
     if (file_exists("mc0:/FORTUNA/BOOT2.ELF", ps2loc)) LoadElf("mc0:/FORTUNA/BOOT2.ELF", "mc0:/FORTUNA/");
     if (file_exists("mc0:/APPS/BOOT.ELF", ps2loc)) LoadElf("mc0:/APPS/BOOT.ELF", "mc0:/APPS/");
