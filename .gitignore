@@ -1,0 +1,4 @@
+
+*.ELF
+*.o
+.vscode/settings.json
