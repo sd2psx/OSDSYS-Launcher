@@ -166,7 +166,8 @@ int main(int argc, char *argv[], char **envp)
     scr_printf("Card re-plug detected. - Booting PS2\n");
 
     if (file_exists("mc0:/B?EXEC-SYSTEM/osdmain.elf", ps2loc)) loadKELF("mc:/B?EXEC-SYSTEM/osdmain.elf", ps2loc);
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osd110.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd110.elf", ps2loc);
+    if (ps2loc != 'I') // `BIEXEC-SYSTEM/osd110.elf` is a KERNEL patch for SCPH-15000. it patches kernel RAM and some OSDSYS RAM on the fly. wich would be desastrous outside of 15k models.
+        if (file_exists("mc0:/B?EXEC-SYSTEM/osd110.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd110.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd120.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd120.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd130.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd130.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd140.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd140.elf", ps2loc);
