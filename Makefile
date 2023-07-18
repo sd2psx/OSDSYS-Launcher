@@ -2,7 +2,8 @@ EE_BIN = sd2psx_bl.elf
 EE_BIN_PACKED = sd2psx_bl-packed.ELF
 EE_BIN_STRIPPED = sd2psx_bl-stripped.ELF
 EE_OBJS = sd2psx_bl.o 
-EE_LIBS = -ldebug -lc -lcdvd -lpatches -lfileXio -lmc 
+EE_LIBS = -ldebug -lpatches -lmc
+NEWLIB_NANO = 1
 
 all:
 	$(MAKE) $(EE_BIN_PACKED)
