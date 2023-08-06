@@ -85,8 +85,7 @@ static void loadKELF(char default_OSDSYS_path[], char ps2loc)
     char *args[4] = {arg0, arg1, arg2, arg3};
     char kelf_loader[40];
     int argc;
-    char path[1025];
-    
+    char path[32];
     if (default_OSDSYS_path[5] == '?')
     {
         default_OSDSYS_path[5] = ps2loc;
