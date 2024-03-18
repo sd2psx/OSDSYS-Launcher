@@ -19,6 +19,8 @@
 #define MC_TYPE_MC 0
 #endif
 
+int is_ProtoKernel = 0;
+int is_early_ProtoKernel = 0;
 
 void ResetIOP()
 {
@@ -116,6 +118,8 @@ static char getPs2Loc()
         read(fdn, romver, sizeof(romver));
         close(fdn);
     }
+    is_ProtoKernel = (romver[0] == '0' && romver[1] == '1' && romver[2] == '0' && romver[4] == 'J'); //Japanese 100 & 101 ROMVERS
+    if (is_ProtoKernel) is_early_ProtoKernel = (romver[3] == '0');
 
     switch (romver[4])
     {
@@ -149,7 +153,7 @@ static bool cardAvailable(void)
 
 int main(int argc, char *argv[], char **envp)
 {
-    char ps2loc = 'E';
+    char ps2loc = 'A';
     bool card_change_det = false;
     bool bootup_done = false;
 
@@ -165,9 +169,12 @@ int main(int argc, char *argv[], char **envp)
 
     scr_printf("Card re-plug detected. - Booting PS2\n");
 
-    if (file_exists("mc0:/B?EXEC-SYSTEM/osdmain.elf", ps2loc)) loadKELF("mc:/B?EXEC-SYSTEM/osdmain.elf", ps2loc);
-    if (ps2loc != 'I') // `BIEXEC-SYSTEM/osd110.elf` is a KERNEL patch for SCPH-15000. it patches kernel RAM and some OSDSYS RAM on the fly. wich would be desastrous outside of 15k models.
+    if (is_ProtoKernel && is_early_ProtoKernel) {
+        if (file_exists("mc0:/B?EXEC-SYSTEM/osdmain.elf", ps2loc)) loadKELF("mc:/B?EXEC-SYSTEM/osdmain.elf", ps2loc);
+    }
+    if ((is_ProtoKernel && !is_early_ProtoKernel) || ps2loc != 'I') { // only if its not japan 101 ROMVER, because BIEXEC-SYSTEM/osd110.elf is kernel patch
         if (file_exists("mc0:/B?EXEC-SYSTEM/osd110.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd110.elf", ps2loc);
+    }
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd120.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd120.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd130.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd130.elf", ps2loc);
     if (file_exists("mc0:/B?EXEC-SYSTEM/osd140.elf", ps2loc) )  loadKELF("mc:/B?EXEC-SYSTEM/osd140.elf", ps2loc);
